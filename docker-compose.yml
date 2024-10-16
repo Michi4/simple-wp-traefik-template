@@ -9,7 +9,7 @@ services:
       WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
       WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
     networks:
-      - ${TRAEFIK_NETWORK}
+      - traefik_network
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.wordpress.rule=Host(`${DOMAIN}`)"
@@ -28,12 +28,12 @@ services:
     volumes:
       - db_data:/var/lib/mysql
     networks:
-      - ${TRAEFIK_NETWORK}
+      - traefik_network
 
 networks:
-  default:
-    name: ${TRAEFIK_NETWORK}
+  traefik_network:
     external: true
+    name: ${TRAEFIK_NETWORK}
 
 volumes:
   wordpress_data:
