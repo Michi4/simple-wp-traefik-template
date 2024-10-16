@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  db:
+  template_db:
     image: mariadb:${MARIADB_VERSION}
     environment:
       MYSQL_ROOT_PASSWORD: ${WORDPRESS_DB_ROOT_PASSWORD}
@@ -9,31 +9,31 @@ services:
       MYSQL_USER: ${WORDPRESS_DB_USER}
       MYSQL_PASSWORD: ${WORDPRESS_DB_PASSWORD}
     volumes:
-      - db_data:/var/lib/mysql
+      - template_db_data:/var/lib/mysql
     networks:
       - traefik_network
 
-  wordpress:
+  template_wordpress:
     image: wordpress:${WORDPRESS_VERSION}
     environment:
-      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_HOST: template_db:3306
       WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
       WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
       WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
     volumes:
-      - wordpress_data:/var/www/html
+      - template_wordpress_data:/var/www/html
     networks:
       - traefik_network
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.template.rule=Host(`template.yourdomain.com`)"
+      - "traefik.http.routers.template.rule=Host(`template.websters.at`)"
       - "traefik.http.routers.template.entrypoints=websecure"
       - "traefik.http.routers.template.tls.certresolver=myresolver"
       - "traefik.http.services.template.loadbalancer.server.port=80"
 
 volumes:
-  db_data:
-  wordpress_data:
+  template_db_data:
+  template_wordpress_data:
 
 networks:
   traefik_network:
