@@ -31,9 +31,11 @@ services:
       - ${TRAEFIK_NETWORK}
 
 networks:
-  ${TRAEFIK_NETWORK}:
+  default:
+    name: ${TRAEFIK_NETWORK}
     external: true
 
 volumes:
   wordpress_data:
   db_data:
+
