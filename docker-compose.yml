@@ -17,6 +17,8 @@ services:
       - "traefik.http.services.wordpress.loadbalancer.server.port=80"
     volumes:
       - wordpress_data:/var/www/html
+      - ./apache-config.conf:/etc/apache2/conf-available/custom.conf
+    command: bash -c "ln -s /etc/apache2/conf-available/custom.conf /etc/apache2/conf-enabled/custom.conf && apache2-foreground"
 
   db:
     image: mysql:${MYSQL_VERSION}
